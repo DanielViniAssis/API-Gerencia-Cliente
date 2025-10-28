@@ -30,52 +30,75 @@ public class ClienteController : ControllerBase
     [HttpPost]
 public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO clienteDto)
 {
-    if (!ModelState.IsValid)
-        return BadRequest(ModelState);
-
-    if (clienteDto.Endereco == null)
-        return BadRequest("Endereço não fornecido.");
-
-    // Consulta o CEP via serviço
-    var viaCepResponse = await _viaCepService.BuscarEndereco(clienteDto.Endereco.Cep);
-
-    if (viaCepResponse == null)
-        return BadRequest("CEP inválido ou não encontrado.");
-
-    // Monta o endereço com dados do ViaCEP + número e complemento do DTO
-    var endereco = new Endereco
-    {
-        Cep = viaCepResponse.Cep,
-        Logradouro  = viaCepResponse.Logradouro,
-        Cidade = viaCepResponse.Localidade,
-        Numero = clienteDto.Endereco.Numero,
-        Complemento = clienteDto.Endereco.Complemento
-    };
-
-        var dataAtual = DateTime.Now;
-        Console.WriteLine($"DateTime.Now: {dataAtual}");
-        Console.WriteLine($"Formatado: {dataAtual.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture)}");
-
-
-    // Cria o cliente completo
-    var cliente = new Cliente
-    {
-        Nome = clienteDto.Nome,
-        DataCadastro = DateTime.Now.ToString("dd-MM-yyyy"),
-        Endereco = endereco,
-        Contatos = clienteDto.Contatos.Select(c => new Contato
+        try
         {
-            Tipo = c.Tipo,
-            Texto = c.Texto
-        }).ToList()
-    };
 
-    _context.Clientes.Add(cliente);
-    await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-    // Retorna DTO mapeado para evitar ciclos de referência na serialização
-    var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
-    return CreatedAtAction(nameof(GetById), new { id = cliente.Id }, clienteRead);
+            if (clienteDto.Endereco == null)
+                return BadRequest("Endereço não fornecido.");
+
+            // Consulta o CEP via serviço
+            var viaCepResponse = await _viaCepService.BuscarEndereco(clienteDto.Endereco.Cep);
+
+            if (viaCepResponse == null)
+                return BadRequest("CEP inválido ou não encontrado.");
+
+            // Monta o endereço com dados do ViaCEP + número e complemento do DTO
+            var endereco = new Endereco
+            {
+                Cep = viaCepResponse.Cep,
+                Logradouro = viaCepResponse.Logradouro,
+                Cidade = viaCepResponse.Localidade,
+                Numero = clienteDto.Endereco.Numero,
+                Complemento = clienteDto.Endereco.Complemento
+            };
+
+            // Cria o cliente
+            var cliente = new Cliente
+            {
+                Nome = clienteDto.Nome,
+                DataCadastro = DateTime.Now.ToString("dd-MM-yyyy"),
+                Endereco = endereco,
+                Contatos = clienteDto.Contatos.Select(c => new Contato
+                {
+                    Tipo = c.Tipo,
+                    Texto = c.Texto
+                }).ToList()
+            };
+
+            _context.Clientes.Add(cliente);
+            await _context.SaveChangesAsync();
+
+            // DTO mapeado
+            var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
+            return CreatedAtAction(nameof(GetById), new { id = cliente.Id }, clienteRead);
+        }
+        catch (ArgumentNullException ex)
+        {
+            return BadRequest($"Parâmetro obrigatorio não informado: {ex.Message}");
+        }
+        catch (FormatException ex)
+        {
+            // Erro de formatação nos dados fornecidos codigo 500 bad request
+            return BadRequest($"Formato inadequado: {ex.Message}");
+        }
+        catch (DbUpdateException ex)
+        {
+            // Erro ao atualizar o banco de dados
+            return StatusCode(500, $"Erro ao atualizar o banco de dados: {ex.Message}");
+        }
+        catch (HttpRequestException ex)
+        {
+            // Erro ao acessar o serviço de CEP
+            return StatusCode(503, $"Erro ao acessar o serviço de CEP: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            // Qualquer outro erro que não pegamos nos outros catchs
+            return StatusCode(500, $"Erro Inesperado: {ex.Message}");
+        }
 }
 
 
@@ -83,93 +106,140 @@ public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO client
     [HttpGet]
     public IActionResult GetAll()
     {
-        var clientes = _context.Clientes
-            .Include(c => c.Endereco)
-            .Include(c => c.Contatos)
-            .ToList();
+        try
+        {
+            var clientes = _context.Clientes
+                .Include(c => c.Endereco)
+                .Include(c => c.Contatos)
+                .ToList();
 
-        var clientesRead = _mapper.Map<List<ClienteReadDTO>>(clientes);
-        return Ok(clientesRead);
+            var clientesRead = _mapper.Map<List<ClienteReadDTO>>(clientes);
+            return Ok(clientesRead);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro Inesperado: {ex.Message}");
+        }
     }
 
     // Metodo GET para listar cliente por id
     [HttpGet("{id}")]
     public IActionResult GetById(int id)
     {
-        var cliente =  _context.Clientes
-            .Include(c => c.Endereco)
-            .Include(c => c.Contatos)
-            .FirstOrDefault(c => c.Id == id);
+        try
+        {
 
-        if (cliente == null)
-            return NotFound($"Cliente com o id {id} não encontrado.");
+            var cliente = _context.Clientes
+                .Include(c => c.Endereco)
+                .Include(c => c.Contatos)
+                .FirstOrDefault(c => c.Id == id);
 
-        var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
-        return Ok(clienteRead);
+            if (cliente == null)
+                return NotFound($"Cliente com o id {id} não encontrado.");
+
+            var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
+            return Ok(clienteRead);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro Inesperado: {ex.Message}");
+        }
     }
 
     // Atualiza Cliente pelo ID
     [HttpPut("{id}")]
     public async Task<IActionResult> Update(int id, [FromBody] ClienteCreateDTO clienteDto)
     {
-        if (clienteDto == null)
-            return BadRequest("Dados do cliente não fornecidos.");
+        try
+        {
+            if (clienteDto == null)
+                return BadRequest("Dados do cliente não fornecidos.");
 
-        if (clienteDto.Endereco == null)
-            return BadRequest("Endereço não fornecido.");
+            if (clienteDto.Endereco == null)
+                return BadRequest("Endereço não fornecido.");
 
-        var cliente = await _context.Clientes
-            .Include(c => c.Endereco)
-            .FirstOrDefaultAsync(c => c.Id == id);
+            var cliente = await _context.Clientes
+                .Include(c => c.Endereco)
+                .FirstOrDefaultAsync(c => c.Id == id);
 
-        if (cliente == null)
-            return NotFound($"Cliente com id {id} não encontrado.");
+            if (cliente == null)
+                return NotFound($"Cliente com id {id} não encontrado.");
 
-        // Atualiza o nome
-        cliente.Nome = clienteDto.Nome;
-        
-        // Verifica se endereco é null
-        var enderecoAtual = cliente.Endereco;
-        var cepAtual = enderecoAtual?.Cep ?? string.Empty;
+            // Atualiza o nome
+            cliente.Nome = clienteDto.Nome;
 
-        // Atualiza o endereço se o CEP mudou
-        if (!string.Equals(cepAtual, clienteDto.Endereco.Cep, StringComparison.OrdinalIgnoreCase))
-           {
+            // Verifica se endereco é null
+            var enderecoAtual = cliente.Endereco;
+            var cepAtual = enderecoAtual?.Cep ?? string.Empty;
+
+            // Atualiza o endereço se o CEP mudou
+            if (!string.Equals(cepAtual, clienteDto.Endereco.Cep, StringComparison.OrdinalIgnoreCase))
+            {
                 var EnderecoCreateDTO = await _viaCepService.BuscarEndereco(clienteDto.Endereco.Cep);
                 if (EnderecoCreateDTO != null)
                 {
                     var novoEndereco = _mapper.Map<Endereco>(EnderecoCreateDTO);
-                // mantém clienteId como chave estrangeira
+                    // mantém clienteId como chave estrangeira
                     novoEndereco.ClienteId = cliente.Id;
                     cliente.Endereco = novoEndereco;
                 }
-            else
+                else
                 {
                     return BadRequest("CEP inválido ao tentar atualizar.");
                 }
             }
 
-        await _context.SaveChangesAsync();
-        var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
-        return Ok(clienteRead); 
+            await _context.SaveChangesAsync();
+            var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
+            return Ok(clienteRead);
+        }
+        catch (ArgumentNullException ex)
+        {
+            return BadRequest($"Parâmetro obrigatorio não preenchido: {ex.Message}");
+        }
+        catch (DbUpdateConcurrencyException ex)
+        {
+            return StatusCode(409, $"Conflito ao atualizar o banco de dados: {ex.Message}");
+        }
+        catch (DbUpdateException ex)
+        {
+            return StatusCode(500, $"Erro ao atualizar o banco de dados: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro Inesperado: {ex.Message}");
+        }
     }
 
     // Remover o CLiente
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        var cliente = _context.Clientes
-            .Include(c => c.Endereco)
-            .Include(c => c.Contatos)
-            .FirstOrDefault(c => c.Id == id);
+        try
+        {
 
-        if (cliente == null)
-            return NotFound($"Cliente com id {id} não encontrado.");
+            var cliente = _context.Clientes
+                .Include(c => c.Endereco)
+                .Include(c => c.Contatos)
+                .FirstOrDefault(c => c.Id == id);
 
-        _context.Clientes.Remove(cliente);
-        _context.SaveChanges();
+            if (cliente == null)
+                return NotFound($"Cliente com id {id} não encontrado.");
 
-        return NoContent();
+            _context.Clientes.Remove(cliente);
+            _context.SaveChanges();
+
+            return NoContent(); //retorna 204 - Deu certo porém ele não retorna nada
+        }
+        catch (DbUpdateException ex)
+        {
+            return StatusCode(500, $"Erro ao atualizar o banco de dados: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro Inesperado: {ex.Message}");
+        }
+
     }
 
 

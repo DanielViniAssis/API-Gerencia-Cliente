@@ -59,14 +59,9 @@ namespace SistemaCliente.Services
         public string Logradouro  { get; set; } = string.Empty;
         [JsonPropertyName("complemento")]
         public string Complemento { get; set; } = string.Empty;
-        public string Bairro { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
+        
         [JsonPropertyName("localidade")]
         public string Localidade { get; set; } = string.Empty; // Cidade
-        public string Uf { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
-        public string Ibge { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
-        public string Gia { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
-        public string Ddd { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
-        public string Siafi { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
         public bool Erro { get; set; } // vem como "erro": true quando o CEP não existe
     }
 }
