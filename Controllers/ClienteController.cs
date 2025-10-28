@@ -6,6 +6,7 @@ using SistemaCliente.Services;
 using SistemaCliente.Data;
 using SistemaCliente.Profiles;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace SistemaCliente.Controllers;
 
@@ -45,17 +46,22 @@ public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO client
     var endereco = new Endereco
     {
         Cep = viaCepResponse.Cep,
-        Logradouro  = viaCepResponse.Logradouro ,
+        Logradouro  = viaCepResponse.Logradouro,
         Cidade = viaCepResponse.Localidade,
         Numero = clienteDto.Endereco.Numero,
         Complemento = clienteDto.Endereco.Complemento
     };
 
+        var dataAtual = DateTime.Now;
+        Console.WriteLine($"DateTime.Now: {dataAtual}");
+        Console.WriteLine($"Formatado: {dataAtual.ToString("dd-MM-yyyy", CultureInfo.InvariantCulture)}");
+
+
     // Cria o cliente completo
     var cliente = new Cliente
     {
         Nome = clienteDto.Nome,
-        DataCadastro = clienteDto.DataCadastro,
+        DataCadastro = DateTime.Now.ToString("dd-MM-yyyy"),
         Endereco = endereco,
         Contatos = clienteDto.Contatos.Select(c => new Contato
         {

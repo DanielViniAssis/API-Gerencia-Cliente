@@ -18,6 +18,7 @@ namespace SistemaCliente.Services
         public async Task<ViaCepResponse?> BuscarEndereco(string cep)
         {
             Console.WriteLine($"Buscando endereço para o CEP: {cep}");
+            Console.WriteLine($"https://viacep.com.br/ws/{cep}/json/");
             // Remove caracteres não numéricos
             cep = new string(cep.Where(char.IsDigit).ToArray());
 
@@ -54,12 +55,12 @@ namespace SistemaCliente.Services
     {
         [JsonPropertyName("cep")]
         public string Cep { get; set; } = string.Empty;
-        [JsonPropertyName("logradouro ")]
+        [JsonPropertyName("logradouro")]
         public string Logradouro  { get; set; } = string.Empty;
         [JsonPropertyName("complemento")]
         public string Complemento { get; set; } = string.Empty;
         public string Bairro { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
-        [JsonPropertyName("cidade")]
+        [JsonPropertyName("localidade")]
         public string Localidade { get; set; } = string.Empty; // Cidade
         public string Uf { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
         public string Ibge { get; set; } = string.Empty; // apenas para executar o consumo correto do viaCep
