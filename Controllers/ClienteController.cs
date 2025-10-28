@@ -11,7 +11,7 @@ using System.Globalization;
 namespace SistemaCliente.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/clientes")]
 public class ClienteController : ControllerBase
 {
 
@@ -194,8 +194,37 @@ public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO client
                 {
                     return BadRequest("CEP inválido ao tentar atualizar.");
                 }
+                cliente.Endereco.Numero = clienteDto.Endereco.Numero;
+                cliente.Endereco.Complemento = clienteDto.Endereco.Complemento;
             }
 
+            // Atualizar contato
+            if (clienteDto.Contatos != null)
+            {
+                // Mapeia DTO 
+                var contatosAtualizados = clienteDto.Contatos.Select(dto =>
+                {
+                    var existente = cliente.Contatos.FirstOrDefault(c => 
+                        c.Tipo == dto.Tipo && c.Texto == dto.Texto);
+                    if (existente != null)
+                    {
+                        // Atualiza existente
+                        _mapper.Map(dto, existente);
+                        return existente;
+                    }
+                    else
+                    {
+                        // Novo contato
+                        var novo = _mapper.Map<Contato>(dto);
+                        novo.ClienteId = cliente.Id;
+                        return novo;
+                    }
+                }).ToList();
+                // Limpando a lista e alterando com novos dados
+                cliente.Contatos.Clear();
+                foreach (var c in contatosAtualizados)
+                cliente.Contatos.Add(c);
+            }
             await _context.SaveChangesAsync();
             var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
             return Ok(clienteRead);
@@ -236,7 +265,7 @@ public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO client
             _context.Clientes.Remove(cliente);
             _context.SaveChanges();
 
-            return NoContent(); //retorna 204 - Deu certo porém ele não retorna nada
+            return StatusCode(200, "Cliente removido com sucesso."); //retorna 204 - Deu certo porém ele não retorna nada
         }
         catch (DbUpdateException ex)
         {
