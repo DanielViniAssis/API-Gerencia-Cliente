@@ -14,6 +14,9 @@
 # Banco de dados local
 *.db
 
+# Configurações de ambiente
+appsettings.Development.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
