@@ -34,10 +34,17 @@ public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO client
         {
 
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
-
+            }
             if (clienteDto.Endereco == null)
+            {
                 return BadRequest("Endereço não fornecido.");
+            }
+            if (clienteDto.Contatos == null || clienteDto.Contatos.Count == 0)
+            {
+                return BadRequest("Contatos não fornecidos.");
+            }
 
             // Consulta o CEP via serviço
             var viaCepResponse = await _viaCepService.BuscarEndereco(clienteDto.Endereco.Cep);

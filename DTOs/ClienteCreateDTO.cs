@@ -12,6 +12,6 @@ public class ClienteCreateDTO
     [Required(ErrorMessage = "O endereço é obrigatório.")]
     public EnderecoCreateDTO? Endereco { get; set; }
 
-    [Required(ErrorMessage = "Deve haver pelo menos um contato.")]
+    [MinLength(1, ErrorMessage = "Deve possuir ao menos um contato.")]
     public List<ContatoCreateDTO> Contatos { get; set; } = new(); 
 }
