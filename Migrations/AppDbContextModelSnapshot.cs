@@ -76,7 +76,7 @@ namespace SistemaCliente.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Logadouro")
+                    b.Property<string>("Logradouro")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

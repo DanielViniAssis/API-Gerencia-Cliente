@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Larissa\\OneDrive\\Documentos\\Daniel\\ProjetoMuralis\\SistemaCliente\\SistemaCliente.csproj": {}
+    "C:\\Users\\Daniel\\Documents\\estudos\\Muralis\\Sistema-Gerencia-Clientes\\SistemaCliente.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Larissa\\OneDrive\\Documentos\\Daniel\\ProjetoMuralis\\SistemaCliente\\SistemaCliente.csproj": {
+    "C:\\Users\\Daniel\\Documents\\estudos\\Muralis\\Sistema-Gerencia-Clientes\\SistemaCliente.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Larissa\\OneDrive\\Documentos\\Daniel\\ProjetoMuralis\\SistemaCliente\\SistemaCliente.csproj",
+        "projectUniqueName": "C:\\Users\\Daniel\\Documents\\estudos\\Muralis\\Sistema-Gerencia-Clientes\\SistemaCliente.csproj",
         "projectName": "SistemaCliente",
-        "projectPath": "C:\\Users\\Larissa\\OneDrive\\Documentos\\Daniel\\ProjetoMuralis\\SistemaCliente\\SistemaCliente.csproj",
-        "packagesPath": "C:\\Users\\Larissa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Larissa\\OneDrive\\Documentos\\Daniel\\ProjetoMuralis\\SistemaCliente\\obj\\",
+        "projectPath": "C:\\Users\\Daniel\\Documents\\estudos\\Muralis\\Sistema-Gerencia-Clientes\\SistemaCliente.csproj",
+        "packagesPath": "C:\\Users\\Daniel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Daniel\\Documents\\estudos\\Muralis\\Sistema-Gerencia-Clientes\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Larissa\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Daniel\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"

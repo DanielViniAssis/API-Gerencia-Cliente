@@ -27,39 +27,51 @@ public class ClienteController : ControllerBase
 
     // Metodo POST para um novo cliente
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] ClienteCreateDTO clienteDto)
-    {   
-        if (string.IsNullOrWhiteSpace(clienteDto.Endereco?.Cep))
-        return BadRequest("O CEP é obrigatório.");
+public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO clienteDto)
+{
+    if (!ModelState.IsValid)
+        return BadRequest(ModelState);
 
-        //Consulta ViaCEP
-        var cep = clienteDto.Endereco.Cep;
-        var enderecoAPI = await _viaCepService.BuscarEndereco(cep);
-        if (enderecoAPI == null){
-            return BadRequest("CEP inválido ou não encontrado.");
-        }
-       
-        //Mapeia DTOs para o Model
-        var cliente = _mapper.Map<Cliente>(clienteDto);
-        
-        var endereco = new Endereco{
-            Cep = clienteDto.Endereco.Cep ?? string.Empty,
-            Logadouro = enderecoAPI.Logradouro,
-            Cidade = enderecoAPI.Cidade,
-            Numero = clienteDto.Endereco.Numero ?? string.Empty,
-            Complemento = clienteDto.Endereco.Complemento ?? string.Empty,
-            ClienteId = cliente.Id
-        };
+    if (clienteDto.Endereco == null)
+        return BadRequest("Endereço não fornecido.");
 
-        cliente.Endereco = endereco;
+    // Consulta o CEP via serviço
+    var viaCepResponse = await _viaCepService.BuscarEndereco(clienteDto.Endereco.Cep);
 
-        //Salva no banco
-        await _context.Clientes.AddAsync(cliente);
-        await _context.SaveChangesAsync();
+    if (viaCepResponse == null)
+        return BadRequest("CEP inválido ou não encontrado.");
 
-        var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
-        return CreatedAtAction(nameof(GetById), new { id = cliente.Id }, clienteRead);
+    // Monta o endereço com dados do ViaCEP + número e complemento do DTO
+    var endereco = new Endereco
+    {
+        Cep = viaCepResponse.Cep,
+        Logradouro  = viaCepResponse.Logradouro ,
+        Cidade = viaCepResponse.Localidade,
+        Numero = clienteDto.Endereco.Numero,
+        Complemento = clienteDto.Endereco.Complemento
+    };
+
+    // Cria o cliente completo
+    var cliente = new Cliente
+    {
+        Nome = clienteDto.Nome,
+        DataCadastro = clienteDto.DataCadastro,
+        Endereco = endereco,
+        Contatos = clienteDto.Contatos.Select(c => new Contato
+        {
+            Tipo = c.Tipo,
+            Texto = c.Texto
+        }).ToList()
+    };
+
+    _context.Clientes.Add(cliente);
+    await _context.SaveChangesAsync();
+
+    // Retorna DTO mapeado para evitar ciclos de referência na serialização
+    var clienteRead = _mapper.Map<ClienteReadDTO>(cliente);
+    return CreatedAtAction(nameof(GetById), new { id = cliente.Id }, clienteRead);
 }
+
 
     // Metodo GET para listar todos os clientes
     [HttpGet]
@@ -96,6 +108,9 @@ public class ClienteController : ControllerBase
     {
         if (clienteDto == null)
             return BadRequest("Dados do cliente não fornecidos.");
+
+        if (clienteDto.Endereco == null)
+            return BadRequest("Endereço não fornecido.");
 
         var cliente = await _context.Clientes
             .Include(c => c.Endereco)

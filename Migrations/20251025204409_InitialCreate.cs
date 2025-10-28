@@ -51,7 +51,7 @@ namespace SistemaCliente.Migrations
                 {
                     ClienteId = table.Column<int>(type: "INTEGER", nullable: false),
                     Cep = table.Column<string>(type: "TEXT", nullable: false),
-                    Logadouro = table.Column<string>(type: "TEXT", nullable: false),
+                    Logradouro = table.Column<string>(type: "TEXT", nullable: false),
                     Cidade = table.Column<string>(type: "TEXT", nullable: false),
                     Numero = table.Column<string>(type: "TEXT", nullable: false),
                     Complemento = table.Column<string>(type: "TEXT", nullable: false)
