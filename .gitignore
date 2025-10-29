@@ -12,6 +12,10 @@
 *.env
 *.png
 
+# Pastas Que não devem ser versionadas
+bin/
+obj/
+
 # Banco de dados local
 *.db
 
