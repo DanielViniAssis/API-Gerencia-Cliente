@@ -265,7 +265,7 @@ public async Task<IActionResult> CriarCliente([FromBody] ClienteCreateDTO client
             _context.Clientes.Remove(cliente);
             _context.SaveChanges();
 
-            return StatusCode(200, "Cliente removido com sucesso."); //retorna 204 - Deu certo porém ele não retorna nada
+            return StatusCode(200, "Cliente removido com sucesso."); //retorna 204 - Deu certo porém ele retorna ok
         }
         catch (DbUpdateException ex)
         {

@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "2195332d-762f-4988-b0f1-861ac6f1becb",
+		"name": "API Gerência Cliente",
+		"description": "Esta API permite gerenciar clientes, incluindo cadastro, atualização, remoção, endereço e contatos.  \nTodos os endpoints utilizam JSON para envio e recebimento de dados.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37457486",
+		"_collection_link": "https://restless-meadow-365293.postman.co/workspace/My-Workspace~27703038-70e8-4a41-8039-df99572584f0/collection/37457486-2195332d-762f-4988-b0f1-861ac6f1becb?action=share&source=collection_link&creator=37457486"
+	},
+	"item": [
+		{
+			"name": "Criar Cliente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "0",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "Application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Cliente 01\",\r\n  \"endereco\": {\r\n    \"cep\": \"08780060\",\r\n    \"numero\": \"1313\",\r\n    \"complemento\": \"3º andar\"\r\n  },\r\n  \"contatos\": [\r\n    {\r\n      \"tipo\": \"telefone\",\r\n      \"texto\": \"(11) 4726-7905\"\r\n    },\r\n    {\r\n      \"tipo\": \"email\",\r\n      \"texto\": \"contato@muralis.com.br\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/clientes/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"clientes",
+						""
+					]
+				},
+				"description": "Cria um novo cliente.\n\nRespostas:\n\n400 (BadRequest) - Parâmetro obrigatorio não informado  \n400 (BadRequest) - Formato inadequado.\n\n500 (**Internal Server Error**) - Erro ao atualizar o banco de dados\n\n500 (**Internal Server Error**) - Erro inesperado  \n503 (Service Unavailable) - Erro ao acessar o serviço de CEP\n\n200 (OK) - Retorna o JSON com os dados do cliente criado."
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Clientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/clientes/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"clientes",
+						""
+					]
+				},
+				"description": "Lista todos os clientes.\n\nRespostas:\n\n500 (**Internal Server Error**) - Erro inesperado\n\n200 (Ok) - Retorna um array de clientes com endereço e contatos."
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Cliente por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/clientes/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"clientes",
+						"1"
+					]
+				},
+				"description": "Busca Cliente pelo ID.\n\nRespostas:\n\n404 (Not Found)- Cliente com o id {id} não encontrado\n\n200 (Ok) - Retorna o JSON com os dados do cliente"
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar Cliente",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Cache-Control",
+						"value": "no-cache",
+						"name": "cache-control",
+						"type": "text"
+					},
+					{
+						"key": "Postman-Token",
+						"value": "<calculated when request is sent>",
+						"name": "postman-token",
+						"type": "text"
+					},
+					{
+						"key": "Content-Length",
+						"value": "0",
+						"name": "content-length",
+						"type": "text"
+					},
+					{
+						"key": "Host",
+						"value": "<calculated when request is sent>",
+						"name": "host",
+						"type": "text"
+					},
+					{
+						"key": "User-Agent",
+						"value": "PostmanRuntime/7.39.1",
+						"name": "user-agent",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "*/*",
+						"name": "accept",
+						"type": "text"
+					},
+					{
+						"key": "Accept-Encoding",
+						"value": "gzip, deflate, br",
+						"name": "accept-encoding",
+						"type": "text"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive",
+						"name": "connection",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "Application/Json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\":\"Cliente 01\",\r\n    \"endereco\":{\r\n        \"cep\":\"08780060\",\r\n        \"numero\":\"1003\",\r\n        \"complemento\":\"ao lado do posto\"},\r\n        \"contatos\":[{\r\n            \"id\":1,\r\n            \"tipo\":\"telefone\",\r\n            \"texto\":\"(11) 88888\"\r\n            },\r\n            {\"id\":1,\r\n            \"tipo\":\"email\",\r\n            \"texto\":\"contato@daniel.com.br\"\r\n            }\r\n            ]\r\n        }",
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/clientes/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"clientes",
+						"1"
+					]
+				},
+				"description": "Altera apenas um cliente pelo ID\n\n  \nRespostas:  \n400 (BadRequest) - Dados do cliente não fornecidos.  \n400 (BadRequest) - Endereço não fornecido  \n404 (NotFound) - Cliente com o ID {id} não encontrado.  \n400 (BadRequest) - CEP inválido ao tentar atualizar.  \n200 (OK) - Retorna o Json com os dados."
+			},
+			"response": []
+		},
+		{
+			"name": "Deletar Cliente",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/clientes/1",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"clientes",
+						"1"
+					]
+				},
+				"description": "Deleta Cliente pelo ID.  \n  \nRespostas:  \n404 (NotFound) - Cliente com o ID {id} não encontrado  \n200 (Ok) - Cliente removido com sucesso.\n\n500 (InternalServerError)- Erro ao atualizar o banco de dados ou outro erro inesperado."
+			},
+			"response": []
+		}
+	]
+}
