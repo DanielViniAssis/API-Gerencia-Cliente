@@ -174,3 +174,4 @@ Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde
 }
 
 ```
+
