@@ -130,8 +130,19 @@ Lembrando que dentro da collection temos a documentação de todas as requests.
 
 Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde armazenamos a url base da nossa aplicação sendo a http://localhost:5167 você pode acessar ela no canto direito do postman integrado ao Visual Studio Code.
 
+<img width="403" height="264" alt="Capturar" src="https://github.com/user-attachments/assets/e50538c0-f8c5-4746-a327-5e5a22d6ea4c" />
+
+<img width="953" height="254" alt="BaseUrl" src="https://github.com/user-attachments/assets/4a6754b0-6fa6-4f34-846a-ac545e1e8241" />
+
+
+*Variavel de ambiente base URL.*
 
 ## Abaixo disponibilizo um json para Post (como mencionado o mesmo se encontra na documentação)
+
+<img width="948" height="581" alt="post" src="https://github.com/user-attachments/assets/0f3f2e9a-0c47-4aa2-a919-d0a6b6b9ebfa" />
+
+*Exemplo de POST pelo PostMan.*
+
 ```json
 {
   "nome": "Cliente 01",
@@ -154,6 +165,11 @@ Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde
 ```
 
 ## Abaixo um Json de PUT (Update)
+
+<img width="948" height="671" alt="put" src="https://github.com/user-attachments/assets/99969162-e663-4769-b291-807a02f72e7e" />
+
+*Exemplo de PUT pelo PostMan.*
+
 ```json
 {
     "nome":"Cliente 01",
@@ -174,4 +190,9 @@ Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde
 }
 
 ```
+## Abaixo Exemplo de como executar um delete.
+
+<img width="957" height="554" alt="delete" src="https://github.com/user-attachments/assets/6125eb30-8963-4008-a3af-d99468628449" />
+
+*Exemplo de DELETE pelo PostMan.*
 
