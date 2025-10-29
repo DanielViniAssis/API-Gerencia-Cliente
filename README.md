@@ -60,7 +60,7 @@ git clone https://github.com/DanielViniAssis/API-Gerencia-Cliente
 ```
 2. Acesse a pasta do projeto:
 ```bash
-cd API-Gerencia-Clientes
+cd API-Gerencia-Cliente
 ```
 3. Instale as dependências:
 ```bash
@@ -125,6 +125,11 @@ Lembrando que dentro da collection temos a documentação de todas as requests.
 <img width="759" height="655" alt="image" src="https://github.com/user-attachments/assets/9e42b835-2314-455b-ab52-175ffa2c7e3c" />
 
 *Exemplo de requisição POST com responses detalhadas.*
+
+## Detalhes sobre o Collections
+
+Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde armazenamos a url base da nossa aplicação sendo a http://localhost:5167 você pode acessar ela no canto direito do postman integrado ao Visual Studio Code.
+
 
 ## Abaixo disponibilizo um json para Post (como mencionado o mesmo se encontra na documentação)
 ```json
