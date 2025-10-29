@@ -80,9 +80,8 @@ dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
 dotnet restore
 ```
 
-5. Crie e aplique as migrations
+5. Aplique as migrations
 ```bash
-dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
 
@@ -195,4 +194,5 @@ Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde
 <img width="957" height="554" alt="delete" src="https://github.com/user-attachments/assets/6125eb30-8963-4008-a3af-d99468628449" />
 
 *Exemplo de DELETE pelo PostMan.*
+
 
