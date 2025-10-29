@@ -60,7 +60,7 @@ git clone https://github.com/DanielViniAssis/API-Gerencia-Cliente
 ```
 2. Acesse a pasta do projeto:
 ```bash
-cd API-Gerencia-Clientes
+cd API-Gerencia-Cliente
 ```
 3. Instale as dependências:
 ```bash
@@ -169,3 +169,4 @@ Lembrando que dentro da collection temos a documentação de todas as requests.
 }
 
 ```
+
