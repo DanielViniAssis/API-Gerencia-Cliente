@@ -12,7 +12,7 @@ public class Cliente
     public string Nome { get; set; } = string.Empty;
 
     [Required]
-    public string DataCadastro { get; set; }
+    public string DataCadastro { get; set; } = string.Empty;
 
     // Relacionamentos entre cliente - contato - endereço
     public Endereco? Endereco { get; set; }

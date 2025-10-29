@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 *.env
+*.png
 
 # Banco de dados local
 *.db
