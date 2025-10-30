@@ -135,6 +135,20 @@ Vamos adicionar nossa URL na nossa variável clicando no olhinho ao lado da vari
 
 *Variavel de ambiente base URL.*
 
+
+## Abaixo como importamos a collection caso ainda não esteja importada.
+
+<img width="236" height="46" alt="Novo Projeto (2)" src="https://github.com/user-attachments/assets/f3104f1d-24c0-435d-8746-fb212641a5ec" />
+
+<img width="236" height="46" alt="Novo Projeto (3)" src="https://github.com/user-attachments/assets/b7d3798e-2af8-47b0-892b-63ca2b4827a2" />
+
+<img width="648" height="333" alt="Novo Projeto (4)" src="https://github.com/user-attachments/assets/139e3324-b58f-4284-ba3f-843dc1368fb5" />
+
+## Aqui podemos escolher as requests e executar os testes.
+
+<img width="248" height="191" alt="image" src="https://github.com/user-attachments/assets/daf9d2c4-a134-4f80-8b9f-a5508d3fa622" />
+
+
 ## Abaixo disponibilizo um json para Post (como mencionado o mesmo se encontra na documentação)
 
 <img width="948" height="581" alt="post" src="https://github.com/user-attachments/assets/0f3f2e9a-0c47-4aa2-a919-d0a6b6b9ebfa" />
@@ -193,6 +207,7 @@ Vamos adicionar nossa URL na nossa variável clicando no olhinho ao lado da vari
 <img width="957" height="554" alt="delete" src="https://github.com/user-attachments/assets/6125eb30-8963-4008-a3af-d99468628449" />
 
 *Exemplo de DELETE pelo PostMan.*
+
 
 
 
