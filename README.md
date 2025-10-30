@@ -204,9 +204,12 @@ Vamos adicionar nossa URL na nossa variável clicando no olhinho ao lado da vari
 ```
 ## Abaixo Exemplo de como executar um delete.
 
+Ao Lado do metodo DELETE adicionamos nossa variável ```BaseUrl/api/clientes/id ``` - digitamos qual id queremos ex: 1, após clicamos em send.
+
 <img width="957" height="554" alt="delete" src="https://github.com/user-attachments/assets/6125eb30-8963-4008-a3af-d99468628449" />
 
 *Exemplo de DELETE pelo PostMan.*
+
 
 
 
