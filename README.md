@@ -66,36 +66,33 @@ cd API-Gerencia-Cliente
 ```bash
 dotnet restore
 ```
-#### Caso não instale corretamente:
+
+4. Aplique as migrations
+```bash
+dotnet ef database update
+```
+
+5. Execute o projeto
+```bash
+dotnet run
+```
+#### Caso não rode corretamente:
 ```bash
 dotnet tool install --global dotnet-ef
 dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Microsoft.EntityFrameworkCore.Sqlite
 dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package AutoMapper
-dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
-```
-4. Restaure todas as dependências 
-```bash
 dotnet restore
-```
-
-5. Aplique as migrations
-```bash
-dotnet ef database update
-```
-
-6. Execute o projeto
-```bash
 dotnet run
 ```
 
-7. A API iniciará:
+
+6. A API iniciará e adicionaremos mais tarde a mesma na variável de ambiente do postman:
 ```bash
 http://localhost:5167
 ```
 
-8. Testando os endpoints
+7. Testando os endpoints
 
  - Todos os endpoints foram testados no Postman, e a documentação completa está incluída na collection:
 ```bash
@@ -127,7 +124,9 @@ Lembrando que dentro da collection temos a documentação de todas as requests.
 
 ## Detalhes sobre o Collections
 
-Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde armazenamos a url base da nossa aplicação sendo a http://localhost:5167 você pode acessar ela no canto direito do postman integrado ao Visual Studio Code.
+Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde armazenamos a url base da nossa aplicação sendo a http://localhost:5167 você pode acessar ela no canto direito do postman integrado ao Visual Studio Code. 
+
+Vamos adicionar nossa URL na nossa variável clicando no olhinho ao lado da variável API como abaixo, e colocamos a URL no campo current value, após clicamos em save e podemos fazer nossas requests.
 
 <img width="403" height="264" alt="Capturar" src="https://github.com/user-attachments/assets/e50538c0-f8c5-4746-a327-5e5a22d6ea4c" />
 
@@ -194,5 +193,6 @@ Dentro do nosso collection teremos uma variavel de ambiente chamda BaseUrl aonde
 <img width="957" height="554" alt="delete" src="https://github.com/user-attachments/assets/6125eb30-8963-4008-a3af-d99468628449" />
 
 *Exemplo de DELETE pelo PostMan.*
+
 
 
