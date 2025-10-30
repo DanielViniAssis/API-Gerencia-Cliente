@@ -1,6 +1,0 @@
-@SistemaCliente_HostAddress = http://localhost:5167
-
-GET {{SistemaCliente_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
